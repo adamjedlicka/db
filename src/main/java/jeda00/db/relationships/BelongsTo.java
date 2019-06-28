@@ -18,4 +18,8 @@ public class BelongsTo<M extends Model<?>, R extends Model<?>> extends Relations
         return query.first();
     }
 
+    public void set(R related) {
+        model.set(getForeignKeyName(), related.getKey());
+    }
+
 }

@@ -30,6 +30,10 @@ public abstract class Model<K> {
         }
     }
 
+    public boolean delete() {
+        return new Delete<>(this).execute();
+    }
+
     public String getTableName() {
         return getClass().getSimpleName().toLowerCase() + "s";
     }

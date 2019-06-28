@@ -10,7 +10,23 @@ public class User extends Model<Integer> {
     }
 
     public User(String firstName, String lastName) {
+        setFirstName(firstName);
+        setLastName(lastName);
+    }
+
+    public String getFirstName() {
+        return (String) get("first_name");
+    }
+
+    public void setFirstName(String firstName) {
         set("first_name", firstName);
+    }
+
+    public String getLastName() {
+        return (String) get("last_name");
+    }
+
+    public void setLastName(String lastName) {
         set("last_name", lastName);
     }
 
