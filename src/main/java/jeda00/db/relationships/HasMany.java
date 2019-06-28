@@ -64,7 +64,7 @@ public class HasMany<M extends Model<?>, R extends Model<?>> extends Relationshi
         return this;
     }
 
-    public List<R> all() {
+    public List<R> get() {
         return query.get();
     }
 
@@ -73,7 +73,7 @@ public class HasMany<M extends Model<?>, R extends Model<?>> extends Relationshi
     }
 
     public boolean sync(R... models) {
-        for (R m : select(related.getKeyName()).all()) {
+        for (R m : select(related.getKeyName()).get()) {
             m.delete();
         }
 

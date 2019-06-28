@@ -35,10 +35,10 @@ public class HasManyTest {
         Role r3 = new Role(u1, "Assistant");
         assertTrue(r3.save());
 
-        List<Role> roles1 = u1.roles().all();
+        List<Role> roles1 = u1.roles().get();
         assertEquals(2, roles1.size());
 
-        List<Role> roles2 = u2.roles().all();
+        List<Role> roles2 = u2.roles().get();
         assertEquals(1, roles2.size());
     }
 
@@ -56,22 +56,22 @@ public class HasManyTest {
         Role r3 = new Role();
         r3.setName("Assistant");
 
-        assertEquals(0, u1.roles().all().size());
+        assertEquals(0, u1.roles().get().size());
 
         u1.roles().sync(r1, r2);
 
-        assertEquals(2, u1.roles().all().size());
-        assertEquals("Admin", u1.roles().all().get(0).getName());
-        assertEquals("Teacher", u1.roles().all().get(1).getName());
+        assertEquals(2, u1.roles().get().size());
+        assertEquals("Admin", u1.roles().get().get(0).getName());
+        assertEquals("Teacher", u1.roles().get().get(1).getName());
 
         u1.roles().sync(r3);
 
-        assertEquals(1, u1.roles().all().size());
-        assertEquals("Assistant", u1.roles().all().get(0).getName());
+        assertEquals(1, u1.roles().get().size());
+        assertEquals("Assistant", u1.roles().get().get(0).getName());
 
         u1.roles().sync();
 
-        assertEquals(0, u1.roles().all().size());
+        assertEquals(0, u1.roles().get().size());
     }
 
 }
