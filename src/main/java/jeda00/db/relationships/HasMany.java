@@ -28,8 +28,38 @@ public class HasMany<M extends Model<?>, R extends Model<?>> extends Relationshi
         return this;
     }
 
+    public HasMany<M, R> where(String field, String operator, Object value) {
+        query.where(field, operator, value);
+
+        return this;
+    }
+
+    public HasMany<M, R> whereNotNull(String field) {
+        query.whereNotNull(field);
+
+        return this;
+    }
+
+    public HasMany<M, R> whereNull(String field) {
+        query.whereNull(field);
+
+        return this;
+    }
+
     public HasMany<M, R> limit(int limit) {
         query.limit(limit);
+
+        return this;
+    }
+
+    public HasMany<M, R> trashed() {
+        query.trashed();
+
+        return this;
+    }
+
+    public HasMany<M, R> withTrashed() {
+        query.withTrashed();
 
         return this;
     }
