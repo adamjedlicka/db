@@ -46,4 +46,8 @@ public abstract class Model<K> {
         return attributes;
     }
 
+    @Override
+    public String toString() {
+        return getTableName() + "." + getKey().toString();
+    }
 }

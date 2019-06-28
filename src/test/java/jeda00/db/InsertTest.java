@@ -11,6 +11,7 @@ public class InsertTest {
 
     @Before
     public void setUp() {
+        Connection.reset();
         Migrations migrations = new Migrations(Connection.get());
         migrations.runMigrations();
     }
