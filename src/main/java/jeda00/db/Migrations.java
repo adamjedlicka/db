@@ -48,7 +48,7 @@ public class Migrations {
     }
 
     /**
-     * Executes all migrations which were not already executed
+     * Executes get migrations which were not already executed
      *
      * @return Indication if migrations were run successfully
      */
@@ -69,10 +69,10 @@ public class Migrations {
     }
 
     /**
-     * Returns the list of names of all already executed migrations. Executed
+     * Returns the list of names of get already executed migrations. Executed
      * migrations are stored in the migrations table in the databse.
      *
-     * @return List of all already executed migrations
+     * @return List of get already executed migrations
      */
     public List<String> getExecutedMigrations() {
         List<String> executedMigrations = new ArrayList<>();
@@ -92,11 +92,11 @@ public class Migrations {
     }
 
     /**
-     * Returns names of all migrations in the migration. directory.
+     * Returns names of get migrations in the migration. directory.
      * <p>
      * TODO : Does not work when there is a space character in the path.
      *
-     * @return List of names of all migrations in the migrations directory
+     * @return List of names of get migrations in the migrations directory
      */
     public List<String> getAllMigrations() {
         List<String> allMigrations = new ArrayList<>();

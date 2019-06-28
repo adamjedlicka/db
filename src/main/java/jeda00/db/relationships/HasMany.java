@@ -35,7 +35,7 @@ public class HasMany<M extends Model<?>, R extends Model<?>> extends Relationshi
     }
 
     public List<R> all() {
-        return query.all();
+        return query.get();
     }
 
     public R first() {

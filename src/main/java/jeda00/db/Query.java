@@ -81,7 +81,7 @@ public class Query<M extends Model<?>> {
         return list;
     }
 
-    public List<M> all() {
+    public List<M> get() {
         return execute();
     }
 
@@ -91,6 +91,10 @@ public class Query<M extends Model<?>> {
         return models.size() == 1
                 ? models.get(0)
                 : null;
+    }
+
+    public int count() {
+        return (int) select("COUNT(*)").get().get(0).get("COUNT(*)");
     }
 
     public String toSql() {

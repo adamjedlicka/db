@@ -82,4 +82,28 @@ public class QueryTest {
         assertEquals(1, users.size());
     }
 
+    @Test
+    public void itHasCount() {
+        assertEquals(0, User.query().count());
+
+        User u1 = new User("Franta", "Sádlo");
+        assertTrue(u1.save());
+
+        assertEquals(1, User.query().count());
+
+        User u2 = new User("Jirka", "Máslo");
+        assertTrue(u2.save());
+
+        assertEquals(2, User.query().count());
+
+        User u3 = new User("Pepa", "Pažitka");
+        assertTrue(u3.save());
+
+        assertEquals(3, User.query().count());
+
+        u2.delete();
+
+        assertEquals(2, User.query().count());
+    }
+
 }

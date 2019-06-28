@@ -25,19 +25,19 @@ public class DeleteTest {
         User u3 = new User("Pepa", "Pažitka");
         assertTrue(u3.save());
 
-        assertEquals(3, User.query().all().size());
+        assertEquals(3, User.query().get().size());
 
         u1.delete();
 
-        assertEquals(2, User.query().all().size());
+        assertEquals(2, User.query().get().size());
 
         u2.delete();
 
-        assertEquals(1, User.query().all().size());
+        assertEquals(1, User.query().get().size());
 
         u3.delete();
 
-        assertEquals(0, User.query().all().size());
+        assertEquals(0, User.query().get().size());
     }
 
 }
