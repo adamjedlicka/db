@@ -1,5 +1,7 @@
 package jeda00.db.models;
 
+import jeda00.db.relationships.BelongsTo;
+
 public class Role extends Model<Integer> {
 
     public Role() {
@@ -7,12 +9,12 @@ public class Role extends Model<Integer> {
     }
 
     public Role(User user, String name) {
-        setUser(user);
+        set("user_id", user.getKey());
         set("name", name);
     }
 
-    public void setUser(User user) {
-        set("user_id", user.getKey());
+    public BelongsTo<Role, User> user() {
+        return new BelongsTo<>(this, User.class);
     }
 
 }

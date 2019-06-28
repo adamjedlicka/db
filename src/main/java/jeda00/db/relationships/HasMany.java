@@ -1,39 +1,15 @@
 package jeda00.db.relationships;
 
 import jeda00.db.Model;
-import jeda00.db.Query;
 
 import java.util.List;
 
-public class HasMany<M extends Model<?>, R extends Model<?>> {
-
-    protected M model;
-
-    protected Class<M> modelClass;
-
-    protected R related;
-
-    protected Class<R> relatedClass;
-
-    protected Query<R> query;
-
-    protected String foreignKey;
+public class HasMany<M extends Model<?>, R extends Model<?>> extends Relationship<M, R> {
 
     public HasMany(M model, Class<R> relatedClass, String foreignKey) {
-        try {
-            this.related = relatedClass.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            System.err.println(e.getMessage());
-            return;
-        }
+        super(model, relatedClass, foreignKey);
 
-        this.model = model;
-        this.modelClass = (Class<M>) model.getClass();
-        this.relatedClass = relatedClass;
-        this.query = new Query<>(relatedClass);
-        this.foreignKey = foreignKey;
-
-        this.query.where(getForeignKey(), model.getKey());
+        query.where(getForeignKeyName(), model.getKey());
     }
 
     public HasMany(M model, Class<R> relatedClass) {
@@ -64,10 +40,6 @@ public class HasMany<M extends Model<?>, R extends Model<?>> {
 
     public R first() {
         return query.first();
-    }
-
-    public String getForeignKey() {
-        return foreignKey;
     }
 
 }

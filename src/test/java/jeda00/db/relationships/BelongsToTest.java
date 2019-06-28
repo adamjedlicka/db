@@ -1,16 +1,16 @@
-package jeda00.db;
+package jeda00.db.relationships;
 
+import jeda00.db.Connection;
+import jeda00.db.Migrations;
 import jeda00.db.models.Role;
 import jeda00.db.models.User;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class HasManyTest {
+public class BelongsToTest {
 
     @Before
     public void setUp() {
@@ -33,11 +33,14 @@ public class HasManyTest {
         Role r3 = new Role(u1, "Assistant");
         assertTrue(r3.save());
 
-        List<Role> roles1 = u1.roles().all();
-        assertEquals(2, roles1.size());
+        User ru1 = r1.user().get();
+        assertEquals(u1.getKey(), ru1.getKey());
 
-        List<Role> roles2 = u2.roles().all();
-        assertEquals(1, roles2.size());
+        User ru2 = r2.user().get();
+        assertEquals(u2.getKey(), ru2.getKey());
+
+        User ru3 = r3.user().get();
+        assertEquals(u1.getKey(), ru3.getKey());
     }
 
 }
