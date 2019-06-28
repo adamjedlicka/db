@@ -42,4 +42,36 @@ public class HasManyTest {
         assertEquals(1, roles2.size());
     }
 
+    @Test
+    public void itSyncsModels() {
+        User u1 = new User("Franta", "Sádlo");
+        assertTrue(u1.save());
+
+        Role r1 = new Role();
+        r1.setName("Admin");
+
+        Role r2 = new Role();
+        r2.setName("Teacher");
+
+        Role r3 = new Role();
+        r3.setName("Assistant");
+
+        assertEquals(0, u1.roles().all().size());
+
+        u1.roles().sync(r1, r2);
+
+        assertEquals(2, u1.roles().all().size());
+        assertEquals("Admin", u1.roles().all().get(0).getName());
+        assertEquals("Teacher", u1.roles().all().get(1).getName());
+
+        u1.roles().sync(r3);
+
+        assertEquals(1, u1.roles().all().size());
+        assertEquals("Assistant", u1.roles().all().get(0).getName());
+
+        u1.roles().sync();
+
+        assertEquals(0, u1.roles().all().size());
+    }
+
 }

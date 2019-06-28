@@ -42,4 +42,17 @@ public class HasMany<M extends Model<?>, R extends Model<?>> extends Relationshi
         return query.first();
     }
 
+    public boolean sync(R... models) {
+        for (R m : select(related.getKeyName()).all()) {
+            m.delete();
+        }
+
+        for (R m : models) {
+            m.set(getForeignKeyName(), model.getKey());
+            m.save();
+        }
+
+        return true;
+    }
+
 }
