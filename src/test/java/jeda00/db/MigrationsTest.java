@@ -23,8 +23,9 @@ public class MigrationsTest {
     public void itListsMigrations() {
         List<String> allMigrations = migrations.getAllMigrations();
 
-        assertEquals(1, allMigrations.size());
+        assertEquals(2, allMigrations.size());
         assertEquals("00001_create_users_table.sql", allMigrations.get(0));
+        assertEquals("00002_create_roles_table.sql", allMigrations.get(1));
     }
 
     @Test

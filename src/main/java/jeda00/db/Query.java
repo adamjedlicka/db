@@ -20,14 +20,13 @@ public class Query<M extends Model<?>> {
     protected int limit;
 
     public Query(Class<M> modelClass) {
-        this.modelClass = modelClass;
-
         try {
             this.model = modelClass.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             System.err.println(e.getMessage());
         }
 
+        this.modelClass = modelClass;
         this.fields = new ArrayList<>();
         this.wheres = new HashMap<>();
         this.limit = 0;
