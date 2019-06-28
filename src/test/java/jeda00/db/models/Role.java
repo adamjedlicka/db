@@ -15,19 +15,19 @@ public class Role extends Model<Integer> {
     }
 
     public String getName() {
-        return (String) get("name");
+        return getString("name");
     }
 
     public void setName(String name) {
-        set("name", name);
+        setString("name", name);
     }
 
     public String getDescription() {
-        return (String) get("description");
+        return getString("description");
     }
 
     public void setDescription(String description) {
-        set("description", description);
+        setString("description", description);
     }
 
     public BelongsTo<Role, User> user() {

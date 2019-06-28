@@ -4,6 +4,7 @@ import jeda00.db.Model;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.stream.Collectors;
 
 public class Update<M extends Model<?>> extends Statement<M> {
@@ -15,6 +16,8 @@ public class Update<M extends Model<?>> extends Statement<M> {
     @Override
     public boolean execute() {
         try {
+            if (model.updatedTimestamp() != null) model.setDate(model.updatedTimestamp(), new Date());
+
             PreparedStatement stmt = model.getConnection().prepareStatement(toSql());
             bindValues(stmt);
             stmt.execute();

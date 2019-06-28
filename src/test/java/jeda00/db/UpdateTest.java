@@ -31,7 +31,7 @@ public class UpdateTest {
         Update<User> update = new Update<>(u);
 
         assertEquals(
-                "UPDATE users SET last_name = ?, created_at = ?, first_name = ? WHERE id = ?",
+                "UPDATE users SET last_name = ?, first_name = ? WHERE id = ?",
                 update.toSql()
         );
 
