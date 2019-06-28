@@ -1,44 +1,47 @@
-package jeda00.db;
+package jeda00.db.statements;
+
+import jeda00.db.Model;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
 
-public class Update<M extends Model<?>> extends Statement<M> {
+public class Insert<M extends Model<?>> extends Statement<M> {
 
-    public Update(M model) {
+    public Insert(M model) {
         super(model);
     }
 
     @Override
     public boolean execute() {
-        try {
+        return transaction(() -> {
             PreparedStatement stmt = model.getConnection().prepareStatement(toSql());
             bindValues(stmt);
             stmt.execute();
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-            return false;
-        }
 
-        return true;
+            stmt = model.getConnection().prepareStatement("SELECT last_insert_rowid()");
+            ResultSet rs = stmt.executeQuery();
+
+            model.set(model.getKeyName(), rs.getObject(1));
+        });
     }
 
     @Override
     public String toSql() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("UPDATE ");
+        sb.append("INSERT INTO ");
         sb.append(model.getTableName());
-        sb.append(" SET ");
+        sb.append(" (");
+        sb.append(String.join(", ", getFieldsWithoutKey()));
+        sb.append(") VALUES (");
         sb.append(
                 getFieldsWithoutKey().stream()
-                        .map(f -> f + " = ?")
+                        .map(f -> "?")
                         .collect(Collectors.joining(", "))
         );
-        sb.append(" WHERE ");
-        sb.append(model.getKeyName());
-        sb.append(" = ?");
+        sb.append(")");
 
         return sb.toString();
     }
@@ -49,7 +52,5 @@ public class Update<M extends Model<?>> extends Statement<M> {
         for (Object value : getValuesWithoutKey()) {
             stmt.setObject(i++, value);
         }
-
-        stmt.setObject(i++, model.getKey());
     }
 }

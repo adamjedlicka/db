@@ -1,4 +1,6 @@
-package jeda00.db;
+package jeda00.db.statements;
+
+import jeda00.db.Model;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

@@ -1,6 +1,7 @@
 package jeda00.db;
 
 import jeda00.db.models.User;
+import jeda00.db.statements.Insert;
 import org.junit.Before;
 import org.junit.Test;
 

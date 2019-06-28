@@ -1,4 +1,7 @@
-package jeda00.db;
+package jeda00.db.statements;
+
+import jeda00.db.Model;
+import jeda00.db.Transaction;
 
 import java.sql.Connection;
 import java.util.List;

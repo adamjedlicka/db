@@ -1,5 +1,9 @@
 package jeda00.db;
 
+import jeda00.db.statements.Delete;
+import jeda00.db.statements.Insert;
+import jeda00.db.statements.Update;
+
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
