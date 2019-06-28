@@ -4,6 +4,7 @@ import jeda00.db.Model;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Date;
 
 public class Delete<M extends Model<?>> extends Statement<M> {
 
@@ -13,6 +14,11 @@ public class Delete<M extends Model<?>> extends Statement<M> {
 
     @Override
     public boolean execute() {
+        if (model.deletedTimestamp() != null) {
+            model.setDate(model.deletedTimestamp(), new Date());
+            return model.save();
+        }
+
         try {
             PreparedStatement stmt = model.getConnection().prepareStatement(toSql());
             bindValues(stmt);

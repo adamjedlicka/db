@@ -1,5 +1,7 @@
 package jeda00.db.models;
 
+import jeda00.db.Query;
+
 import java.util.Date;
 
 public class Firm extends Model<Integer> {
@@ -45,6 +47,10 @@ public class Firm extends Model<Integer> {
     @Override
     public String deletedTimestamp() {
         return "deleted_at";
+    }
+
+    public static Query<Firm> query() {
+        return new Query<>(Firm.class);
     }
 
 }
