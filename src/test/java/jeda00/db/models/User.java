@@ -13,7 +13,7 @@ public class User extends Model<Integer> {
         set("last_name", lastName);
     }
 
-    public static Query<User, Integer> query() {
+    public static Query<User> query() {
         return new Query<>(User.class);
     }
 

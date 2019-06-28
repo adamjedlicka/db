@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
 
-public class Insert<M extends Model<K>, K> extends Statement<M, K> {
+public class Insert<M extends Model<?>> extends Statement<M> {
 
     public Insert(M model) {
         super(model);

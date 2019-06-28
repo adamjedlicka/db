@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Query<M extends Model<K>, K> {
+public class Query<M extends Model<?>> {
 
     protected M model;
 
@@ -33,19 +33,19 @@ public class Query<M extends Model<K>, K> {
         this.limit = 0;
     }
 
-    public Query<M, K> select(String... fields) {
+    public Query<M> select(String... fields) {
         this.fields.addAll(Arrays.asList(fields));
 
         return this;
     }
 
-    public Query<M, K> where(String field, Object value) {
+    public Query<M> where(String field, Object value) {
         this.wheres.put(field, value);
 
         return this;
     }
 
-    public Query<M, K> limit(int limit) {
+    public Query<M> limit(int limit) {
         this.limit = limit;
 
         return this;

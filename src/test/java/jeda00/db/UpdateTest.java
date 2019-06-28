@@ -20,13 +20,13 @@ public class UpdateTest {
     public void itUpdatesRecordsInTheDatabase() {
         User u = new User("Adam", "Jedlička");
 
-        Insert<User, Integer> insert = new Insert<>(u);
+        Insert<User> insert = new Insert<>(u);
 
         assertTrue(insert.execute());
 
         u.set("first_name", "Jirka");
 
-        Update<User, Integer> update = new Update<>(u);
+        Update<User> update = new Update<>(u);
 
         assertEquals(
                 "UPDATE users SET last_name = ?, first_name = ? WHERE id = ?",

@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class Statement<M extends Model<K>, K> {
+public abstract class Statement<M extends Model<?>> {
 
     protected M model;
 

@@ -20,7 +20,7 @@ public class InsertTest {
     public void itInsertsRecordIntoTheDatabase() {
         User u = new User("Adam", "Jedlička");
 
-        Insert<User, Integer> insert = new Insert<>(u);
+        Insert<User> insert = new Insert<>(u);
 
         assertEquals(
                 "INSERT INTO users (last_name, first_name) VALUES (?, ?)",

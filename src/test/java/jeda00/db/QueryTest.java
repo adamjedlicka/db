@@ -27,7 +27,7 @@ public class QueryTest {
         User u3 = new User("Pepa", "Pažitka");
         assertTrue(u3.save());
 
-        Query<User, Integer> query = new Query<>(User.class);
+        Query<User> query = new Query<>(User.class);
 
         assertEquals(
                 "SELECT * FROM users",
@@ -66,7 +66,7 @@ public class QueryTest {
         User u3 = new User("Pepa", "Pažitka");
         assertTrue(u3.save());
 
-        Query<User, Integer> query = User.query()
+        Query<User> query = User.query()
                 .select("id", "first_name", "last_name")
                 .where("first_name", "Franta")
                 .where("last_name", "Sádlo")

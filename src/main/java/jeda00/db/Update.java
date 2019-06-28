@@ -4,7 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
 
-public class Update<M extends Model<K>, K> extends Statement<M, K> {
+public class Update<M extends Model<?>> extends Statement<M> {
 
     public Update(M model) {
         super(model);
