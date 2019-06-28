@@ -24,7 +24,7 @@ public class InsertTest {
         Insert<User> insert = new Insert<>(u);
 
         assertEquals(
-                "INSERT INTO users (last_name, first_name) VALUES (?, ?)",
+                "INSERT INTO users (last_name, created_at, first_name) VALUES (?, ?, ?)",
                 insert.toSql()
         );
 

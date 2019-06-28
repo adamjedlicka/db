@@ -6,7 +6,7 @@ import jeda00.db.relationships.BelongsTo;
 public class Role extends Model<Integer> {
 
     public Role() {
-
+        //
     }
 
     public Role(User user, String name) {
