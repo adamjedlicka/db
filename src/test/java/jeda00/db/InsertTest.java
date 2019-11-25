@@ -36,6 +36,18 @@ public class InsertTest {
     }
 
     @Test
+    public void itSetsPrimaryKey() throws SQLException {
+        User u1 = new User("Adam", "Jedlička");
+        u1.save();
+
+        User u2 = new User("Franta", "Sádlo");
+        u2.save();
+
+        assertEquals(1, u1.getKey().intValue());
+        assertEquals(2, u2.getKey().intValue());
+    }
+
+    @Test
     public void itHandlesTimestamps() throws InterruptedException, SQLException {
         Firm firm = new Firm("ABRA");
         assertTrue(firm.save());
