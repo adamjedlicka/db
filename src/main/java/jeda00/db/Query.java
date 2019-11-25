@@ -107,8 +107,6 @@ public class Query<M extends Model<?>> {
     }
 
     protected List<M> execute() {
-        System.out.println(toSql());
-
         List<M> list = new ArrayList<>();
 
         try {
