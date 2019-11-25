@@ -15,20 +15,19 @@ public class Insert<M extends Model<?>> extends Statement<M> {
     }
 
     @Override
-    public boolean execute() {
-        return transaction(() -> {
-            if (model.createdTimestamp() != null) model.setDate(model.createdTimestamp(), new Date());
-            if (model.updatedTimestamp() != null) model.setDate(model.updatedTimestamp(), new Date());
+    public boolean execute() throws SQLException {
+        if (model.createdTimestamp() != null) model.setDate(model.createdTimestamp(), new Date());
+        if (model.updatedTimestamp() != null) model.setDate(model.updatedTimestamp(), new Date());
 
-            PreparedStatement stmt = model.getConnection().prepareStatement(toSql());
-            bindValues(stmt);
-            stmt.execute();
+        PreparedStatement stmt = model.getConnection().prepareStatement(toSql(), java.sql.Statement.RETURN_GENERATED_KEYS);
+        bindValues(stmt);
+        stmt.execute();
 
-            stmt = model.getConnection().prepareStatement("SELECT last_insert_rowid()");
-            ResultSet rs = stmt.executeQuery();
+        ResultSet rs = stmt.getGeneratedKeys();
 
-            model.set(model.getKeyName(), rs.getObject(1));
-        });
+        model.set(model.getKeyName(), rs.getObject(1));
+
+        return true;
     }
 
     @Override

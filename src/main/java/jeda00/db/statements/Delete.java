@@ -13,20 +13,15 @@ public class Delete<M extends Model<?>> extends Statement<M> {
     }
 
     @Override
-    public boolean execute() {
+    public boolean execute() throws SQLException {
         if (model.deletedTimestamp() != null) {
             model.setDate(model.deletedTimestamp(), new Date());
             return model.save();
         }
 
-        try {
-            PreparedStatement stmt = model.getConnection().prepareStatement(toSql());
-            bindValues(stmt);
-            stmt.execute();
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-            return false;
-        }
+        PreparedStatement stmt = model.getConnection().prepareStatement(toSql());
+        bindValues(stmt);
+        stmt.execute();
 
         return true;
     }

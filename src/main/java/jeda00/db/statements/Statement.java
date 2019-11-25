@@ -4,9 +4,11 @@ import jeda00.db.Model;
 import jeda00.db.Transaction;
 
 import java.sql.Connection;
-import java.util.*;
+import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public abstract class Statement<M extends Model<?>> {
 
@@ -22,12 +24,12 @@ public abstract class Statement<M extends Model<?>> {
         this.connection = model.getConnection();
     }
 
-    public abstract boolean execute();
+    public abstract boolean execute() throws SQLException;
 
     public abstract String toSql();
 
     protected Set<String> getFields() {
-        Set<String> fields = new HashSet<>(model.getAttributes().keySet());
+        Set<String> fields = new HashSet(model.getAttributes().keySet());
 
         if (model.createdTimestamp() != null) fields.add(model.createdTimestamp());
         if (model.updatedTimestamp() != null) fields.add(model.updatedTimestamp());

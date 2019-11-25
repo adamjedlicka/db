@@ -9,6 +9,8 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.sql.SQLException;
+
 public class UpdateTest {
 
     @Before
@@ -19,7 +21,7 @@ public class UpdateTest {
     }
 
     @Test
-    public void itUpdatesRecordsInTheDatabase() {
+    public void itUpdatesRecordsInTheDatabase() throws SQLException {
         User u = new User("Adam", "Jedlička");
 
         Insert<User> insert = new Insert<>(u);

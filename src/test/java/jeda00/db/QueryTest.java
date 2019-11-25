@@ -5,6 +5,7 @@ import jeda00.db.models.User;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -20,7 +21,7 @@ public class QueryTest {
     }
 
     @Test
-    public void itGetsRecordsFromTheDatabase() {
+    public void itGetsRecordsFromTheDatabase() throws SQLException {
         User u1 = new User("Franta", "Sádlo");
         assertTrue(u1.save());
         User u2 = new User("Jirka", "Máslo");
@@ -43,7 +44,7 @@ public class QueryTest {
     }
 
     @Test
-    public void itInterferesFromClass() {
+    public void itInterferesFromClass() throws SQLException {
         User u1 = new User("Franta", "Sádlo");
         assertTrue(u1.save());
         User u2 = new User("Jirka", "Máslo");
@@ -59,7 +60,7 @@ public class QueryTest {
     }
 
     @Test
-    public void testComplexQuery() {
+    public void testComplexQuery() throws SQLException {
         User u1 = new User("Franta", "Sádlo");
         assertTrue(u1.save());
         User u2 = new User("Jirka", "Máslo");
@@ -85,7 +86,7 @@ public class QueryTest {
     }
 
     @Test
-    public void itHasCount() {
+    public void itHasCount() throws SQLException {
         assertEquals(0, User.query().count());
 
         User u1 = new User("Franta", "Sádlo");
@@ -109,7 +110,7 @@ public class QueryTest {
     }
 
     @Test
-    public void itHandlesSoftDeletes() {
+    public void itHandlesSoftDeletes() throws SQLException {
         Firm f1 = new Firm("A");
         f1.save();
 

@@ -7,6 +7,8 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.sql.SQLException;
+
 public class DeleteTest {
 
     @Before
@@ -17,7 +19,7 @@ public class DeleteTest {
     }
 
     @Test
-    public void itDeletesRecordsFromTheDatabase() {
+    public void itDeletesRecordsFromTheDatabase() throws SQLException {
         User u1 = new User("Franta", "Sádlo");
         assertTrue(u1.save());
         User u2 = new User("Jirka", "Máslo");

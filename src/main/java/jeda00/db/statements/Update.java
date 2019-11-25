@@ -14,17 +14,12 @@ public class Update<M extends Model<?>> extends Statement<M> {
     }
 
     @Override
-    public boolean execute() {
-        try {
-            if (model.updatedTimestamp() != null) model.setDate(model.updatedTimestamp(), new Date());
+    public boolean execute() throws SQLException {
+        if (model.updatedTimestamp() != null) model.setDate(model.updatedTimestamp(), new Date());
 
-            PreparedStatement stmt = model.getConnection().prepareStatement(toSql());
-            bindValues(stmt);
-            stmt.execute();
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-            return false;
-        }
+        PreparedStatement stmt = model.getConnection().prepareStatement(toSql());
+        bindValues(stmt);
+        stmt.execute();
 
         return true;
     }

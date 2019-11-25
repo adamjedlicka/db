@@ -6,6 +6,7 @@ import jeda00.db.statements.Insert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.SQLException;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
@@ -21,7 +22,7 @@ public class InsertTest {
     }
 
     @Test
-    public void itInsertsRecordIntoTheDatabase() {
+    public void itInsertsRecordIntoTheDatabase() throws SQLException {
         User u = new User("Adam", "Jedlička");
 
         Insert<User> insert = new Insert<>(u);
@@ -35,7 +36,7 @@ public class InsertTest {
     }
 
     @Test
-    public void itHandlesTimestamps() throws InterruptedException {
+    public void itHandlesTimestamps() throws InterruptedException, SQLException {
         Firm firm = new Firm("ABRA");
         assertTrue(firm.save());
 

@@ -22,8 +22,8 @@ public class Query<M extends Model<?>> {
 
     public Query(Class<M> modelClass) {
         try {
-            this.model = modelClass.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
+            this.model = modelClass.getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
             System.err.println(e.getMessage());
             return;
         }

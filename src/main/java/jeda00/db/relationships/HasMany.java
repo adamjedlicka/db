@@ -2,6 +2,7 @@ package jeda00.db.relationships;
 
 import jeda00.db.Model;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class HasMany<M extends Model<?>, R extends Model<?>> extends Relationship<M, R> {
@@ -72,7 +73,7 @@ public class HasMany<M extends Model<?>, R extends Model<?>> extends Relationshi
         return query.first();
     }
 
-    public boolean sync(R... models) {
+    public boolean sync(R... models) throws SQLException {
         for (R m : select(related.getKeyName()).get()) {
             m.delete();
         }

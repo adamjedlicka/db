@@ -5,6 +5,7 @@ import jeda00.db.statements.Insert;
 import jeda00.db.statements.Update;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
@@ -52,7 +53,7 @@ public abstract class Model<K> {
         set(attribute, value.toInstant().toEpochMilli());
     }
 
-    public boolean save() {
+    public boolean save() throws SQLException {
         if (getKey() == null) {
             return new Insert<>(this).execute();
         } else {
@@ -60,7 +61,7 @@ public abstract class Model<K> {
         }
     }
 
-    public boolean delete() {
+    public boolean delete() throws SQLException {
         return new Delete<>(this).execute();
     }
 
@@ -72,6 +73,7 @@ public abstract class Model<K> {
         return "id";
     }
 
+    @SuppressWarnings("unchecked")
     public K getKey() {
         return (K) get(getKeyName());
     }
