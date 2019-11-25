@@ -66,6 +66,11 @@ public class HasMany<M extends Model<?>, R extends Model<?>> extends Relationshi
     }
 
     public List<R> get() {
+        List<R> cache = (List<R>) model.get("_cache_" + getForeignKeyName());
+        if (cache != null) {
+            return cache;
+        }
+
         return query.get();
     }
 

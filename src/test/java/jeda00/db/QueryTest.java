@@ -1,6 +1,7 @@
 package jeda00.db;
 
 import jeda00.db.models.Firm;
+import jeda00.db.models.Role;
 import jeda00.db.models.User;
 import org.junit.Before;
 import org.junit.Test;
@@ -127,6 +128,27 @@ public class QueryTest {
         assertEquals(2, Firm.query().count());
         assertEquals(1, Firm.query().trashed().count());
         assertEquals(3, Firm.query().withTrashed().count());
+    }
+
+    @Test
+    public void itEagerLoadsRelationships() throws SQLException {
+        User u1 = new User("u", "1");
+        u1.save();
+        User u2 = new User("u", "2");
+        u2.save();
+        Role r1 = new Role(u1, "r1");
+        r1.save();
+        Role r2 = new Role(u1, "r2");
+        r2.save();
+        Role r3 = new Role(u2, "r3");
+        r3.save();
+        Role r4 = new Role(u2, "r4");
+        r4.save();
+
+        List<User> users = User.query().with("roles").get();
+
+        assertEquals(2, users.get(0).roles().get().size());
+        assertEquals(2, users.get(1).roles().get().size());
     }
 
 }

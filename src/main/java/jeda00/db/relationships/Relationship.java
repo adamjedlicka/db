@@ -40,4 +40,8 @@ public abstract class Relationship<M extends Model<?>, R extends Model<?>> {
         return query.toSql();
     }
 
+    public Query<R> getQuery() {
+        return query;
+    }
+
 }

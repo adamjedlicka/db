@@ -1,10 +1,15 @@
 package jeda00.db;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
+import jeda00.db.relationships.Relationship;
+
+import java.lang.reflect.Method;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Query<M extends Model<?>> {
 
@@ -17,6 +22,8 @@ public class Query<M extends Model<?>> {
     protected Map<String, Object> wheres;
 
     protected Map<String, Boolean> whereNotNulls;
+
+    protected List<String> withs;
 
     protected int limit;
 
@@ -32,6 +39,7 @@ public class Query<M extends Model<?>> {
         this.fields = new ArrayList<>();
         this.wheres = new HashMap<>();
         this.whereNotNulls = new HashMap<>();
+        this.withs = new ArrayList<>();
         this.limit = 0;
 
         if (model.deletedTimestamp() != null) {
@@ -55,6 +63,13 @@ public class Query<M extends Model<?>> {
         return where(field, "=", value);
     }
 
+    public Query<M> whereIn(String field, List values) {
+        String questionMarks = (String) values.stream().map(e -> "?").collect(Collectors.joining(", "));
+        this.wheres.put(field + " IN (" + questionMarks + ")", values);
+
+        return this;
+    }
+
     public Query<M> whereNotNull(String field) {
         whereNotNulls.put(field, true);
 
@@ -63,6 +78,12 @@ public class Query<M extends Model<?>> {
 
     public Query<M> whereNull(String field) {
         whereNotNulls.put(field, false);
+
+        return this;
+    }
+
+    public Query<M> with(String... relationships) {
+        withs.addAll(Arrays.asList(relationships));
 
         return this;
     }
@@ -86,6 +107,8 @@ public class Query<M extends Model<?>> {
     }
 
     protected List<M> execute() {
+        System.out.println(toSql());
+
         List<M> list = new ArrayList<>();
 
         try {
@@ -111,6 +134,12 @@ public class Query<M extends Model<?>> {
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return null;
+        }
+
+        try {
+            loadRelationships(list);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return list;
@@ -157,7 +186,40 @@ public class Query<M extends Model<?>> {
         int i = 1;
 
         for (Map.Entry<String, Object> e : wheres.entrySet()) {
-            stmt.setObject(i++, e.getValue());
+            Object value = e.getValue();
+
+            if (value instanceof List) {
+                for (Object subvalue : (List) value) {
+                    stmt.setObject(i++, subvalue);
+                }
+            } else {
+                stmt.setObject(i++, e.getValue());
+            }
+        }
+    }
+
+    protected void loadRelationships(List<M> models) throws Exception {
+        List keys = models.stream()
+                .map(model -> model.getKey())
+                .collect(Collectors.toList());
+
+        for (String relationshipName : withs) {
+            Method relationshipMethod = modelClass.getMethod(relationshipName);
+            Relationship relationship = (Relationship) relationshipMethod.invoke(model);
+            Query query = relationship.getQuery();
+
+            query.wheres.clear();
+            query.whereIn(relationship.getForeignKeyName(), keys);
+
+            List<Model> allRelatedModels = (List<Model>) query.get();
+
+            for (Model model : models) {
+                List<Model> relatedModels = allRelatedModels.stream()
+                        .filter(relatedModel -> relatedModel.get(relationship.getForeignKeyName()).equals(model.getKey()))
+                        .collect(Collectors.toList());
+
+                model.set("_cache_" + relationship.getForeignKeyName(), relatedModels);
+            }
         }
     }
 
